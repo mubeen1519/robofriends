@@ -1,30 +1,33 @@
-import React, { Component } from "react";
+import React, { useState , useEffect } from "react";
 import CardList from "../components/CardList";
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/scroll';
 
 
-class App extends Component {
-    constructor(){
-        super()
-        this.state = {
-            robots: [],
-            searhField : ''
-        }
-    }
+function App () {
+    // constructor(){
+    //     super()
+    //     this.state = {
+    //         robots: [],
+    //         searhField : ''
+    //     }
+    // }
 
-    componentDidMount(){
+    const[robots, setRobots] = useState([])
+    const[searhField, setSearchField] = useState('')
+
+    // this react same as componentdidmount lifecycle method to rerender everytime when app open 
+    //this is hooks method introduced in react 16 version
+    useEffect(() => {
         fetch('https://jsonplaceholder.typicode.com/users')
         .then(responce => responce.json())
-        .then(users => this.setState({robots : users}));
+        .then(users => setRobots(users));
+    });
+
+    const onSearchChange = (event) =>{
+        setSearchField(event.target.value)
     }
 
-    onSearchChange = (event) =>{
-        this.setState({searhField: event.target.value})
-    }
-
-    render() {
-        const {robots, searhField} = this.state;
         const filtered = robots.filter(robot => {
             return robot.name.toLowerCase().includes(searhField.toLowerCase());
         })
@@ -34,7 +37,7 @@ class App extends Component {
         return (
             <div className="tc" >
                 <h1 className="f2">RoboFriends</h1>
-                <SearchBox searchChange ={this.onSearchChange} />
+                <SearchBox searchChange ={onSearchChange} />
 
                 <Scroll>
                 <CardList robots={filtered} />
@@ -42,7 +45,6 @@ class App extends Component {
             </div>
         );
         }
-    }
 
 }
 

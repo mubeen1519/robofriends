@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import './index.css';
-import App from './containers/App'
-import 'tachyons'
+import App from './containers/App';
+import '../src/containers/App.css';
+import 'tachyons';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
